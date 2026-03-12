@@ -25,6 +25,15 @@
   }
 
   html { scroll-behavior: smooth; }
+  html, body {
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -753,7 +762,28 @@
   </p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Auto-resize for Wix
+  function sendHeightToWix() {
+    var h = Math.max(document.body.scrollHeight, document.body.offsetHeight,
+      document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+    window.parent.postMessage({ height: h }, '*');
+  }
+  sendHeightToWix();
+  window.addEventListener('load', function() {
+    sendHeightToWix();
+    var attempts = 0;
+    var interval = setInterval(function() {
+      sendHeightToWix();
+      attempts++;
+      if (attempts >= 20) clearInterval(interval);
+    }, 250);
+  });
+  window.addEventListener('resize', sendHeightToWix);
+  if (window.ResizeObserver) {
+    new ResizeObserver(sendHeightToWix).observe(document.body);
+  }
+
   // Reveal on scroll
   document.body.classList.add('js-loaded');
   const reveals = document.querySelectorAll('.reveal');
@@ -774,4 +804,13 @@
     document.getElementById('amount-input').value = value;
   }
 
-  // Clear preset o
+  // Clear preset on manual input
+  document.getElementById('amount-input') && document.getElementById('amount-input').addEventListener('input', function() {
+    if (this.value) {
+      document.querySelectorAll('.amount-btn').forEach(function(b) { b.classList.remove('active'); });
+    }
+  });
+</script>
+
+</body>
+</html>
