@@ -598,7 +598,7 @@
     border-radius: 8px;
     width: 100%;
     max-width: 680px;
-    max-height: 90vh;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -649,13 +649,15 @@
 
   .donate-popup-body {
     flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .donate-popup-body iframe {
     width: 100%;
-    min-height: 600px;
+    height: 100%;
+    flex: 1;
     border: none;
     display: block;
   }
@@ -850,20 +852,12 @@
   <div class="section-label">Make a Donation</div>
   <h2 class="reveal">Fill in your<br>donation details</h2>
 
-  <div class="donate-form reveal" style="text-align:center; padding: 48px 32px;">
-    <p style="font-family:'Lora',serif; font-size:16px; color:#4A3F35; line-height:1.8; margin-bottom:36px;">
-      Your contribution goes directly to the people who need it most.<br>
-      <span style="font-size:13px; color:#8C7B6E;">Secure payment powered by SupporterHub.</span>
-    </p>
-    <button class="donate-open-btn" onclick="openDonatePopup()">
-      Donate Now &#10084;
-    </button>
-    <p class="form-note" style="margin-top: 28px;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-      Your information is fully protected &middot; 100% of your donation reaches the project directly
-    </p>
+  <div class="donate-form reveal" style="padding: 0; overflow: hidden; height: 80vh; display: flex; flex-direction: column;">
+    <iframe src='https://asif.supporterhub.net.au/donations/make-an-impact-now'
+            id='donations-make-an-impact-now-iframe'
+            style='border: none; width: 100%; flex: 1; display: block;'
+            allow='payment'>
+    </iframe>
   </div>
 
   <!-- DONATE POPUP -->
