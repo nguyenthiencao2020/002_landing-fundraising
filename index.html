@@ -852,11 +852,14 @@
   <div class="section-label">Make a Donation</div>
   <h2 class="reveal">Fill in your<br>donation details</h2>
 
-  <div class="donate-form reveal" style="padding: 0; overflow: hidden; height: 100vh; display: flex; flex-direction: column;">
-    <iframe src='https://asif.supporterhub.net.au/donations/make-an-impact-now'
-            id='donations-make-an-impact-now-iframe'
-            style='border: none; width: 100%; flex: 1; display: block;'
-            allow='payment'>
+  <div class="donate-form reveal" style="padding: 0; border: none; background: transparent;">
+    <iframe src="https://asif.supporterhub.net.au/donations/make-an-impact-now"
+            id="donations-make-an-impact-now-iframe"
+            width="100%"
+            height="1400"
+            frameborder="0"
+            allow="payment"
+            allowpaymentrequest>
     </iframe>
   </div>
 
@@ -878,16 +881,13 @@
   </div>
 
   <script>
-    var aabecbIframe = document.getElementById('donations-make-an-impact-now-iframe');
-    var aabecbParams = new URLSearchParams(window.location.search);
-    var aabecbIframeParams = new URLSearchParams();
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','shcart'].forEach(function(p){ if(aabecbParams.get(p)) aabecbIframeParams.set(p, aabecbParams.get(p)); });
-    if(aabecbParams.get('source')) aabecbIframeParams.set('source', aabecbParams.get('source'));
-    else if(aabecbParams.get('utm_source')) aabecbIframeParams.set('source', aabecbParams.get('utm_source'));
-    aabecbIframe.src = aabecbIframeParams.toString() ? 'https://asif.supporterhub.net.au/donations/make-an-impact-now?' + aabecbIframeParams.toString() : 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
+    // SupporterHub auto-height
     window.addEventListener('message', function(event){
-      if (!event.data.url_path || !event.data.url_path.startsWith('/donations/make-an-impact-now')) return;
-      aabecbIframe.style.height = event.data.height + 'px';
+      var iframe = document.getElementById('donations-make-an-impact-now-iframe');
+      if (!iframe) return;
+      if (event.data && event.data.url_path && event.data.url_path.startsWith('/donations/make-an-impact-now')) {
+        iframe.style.height = event.data.height + 'px';
+      }
     }, false);
   </script>
 </section>
