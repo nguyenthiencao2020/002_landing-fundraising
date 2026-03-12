@@ -576,6 +576,112 @@
     }
   }
 
+  /* DONATE POPUP */
+  .donate-popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,61,58,0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .donate-popup-overlay.active {
+    display: flex;
+  }
+
+  .donate-popup-box {
+    background: var(--warm-white);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+    animation: popupIn 0.35s ease;
+  }
+
+  @keyframes popupIn {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .donate-popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .donate-popup-header span {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--deep-teal);
+  }
+
+  .donate-popup-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-light);
+    transition: all 0.2s;
+  }
+
+  .donate-popup-close:hover {
+    background: var(--cream);
+    color: var(--text-dark);
+  }
+
+  .donate-popup-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .donate-popup-body iframe {
+    width: 100%;
+    min-height: 600px;
+    border: none;
+    display: block;
+  }
+
+  .donate-open-btn {
+    display: inline-block;
+    padding: 20px 60px;
+    background: linear-gradient(135deg, var(--deep-teal), var(--teal));
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .donate-open-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(26,61,58,0.35);
+  }
+
   /* FOOTER */
   .footer {
     background: var(--text-dark);
@@ -744,22 +850,37 @@
   <div class="section-label">Make a Donation</div>
   <h2 class="reveal">Fill in your<br>donation details</h2>
 
-  <div class="donate-form reveal">
-
-    <iframe src='https://asif.supporterhub.net.au/donations/make-an-impact-now'
-            id='donations-make-an-impact-now-iframe'
-            style='border: none; width: 100%; min-height: 700px; display: block;'
-            allow='payment'
-            scrolling='no'>
-    </iframe>
-
-    <p class="form-note" style="margin-top: 24px;">
+  <div class="donate-form reveal" style="text-align:center; padding: 48px 32px;">
+    <p style="font-family:'Lora',serif; font-size:16px; color:#4A3F35; line-height:1.8; margin-bottom:36px;">
+      Your contribution goes directly to the people who need it most.<br>
+      <span style="font-size:13px; color:#8C7B6E;">Secure payment powered by SupporterHub.</span>
+    </p>
+    <button class="donate-open-btn" onclick="openDonatePopup()">
+      Donate Now &#10084;
+    </button>
+    <p class="form-note" style="margin-top: 28px;">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.5">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
       Your information is fully protected &middot; 100% of your donation reaches the project directly
     </p>
+  </div>
 
+  <!-- DONATE POPUP -->
+  <div class="donate-popup-overlay" id="donatePopup" onclick="closeDonateOnOverlay(event)">
+    <div class="donate-popup-box">
+      <div class="donate-popup-header">
+        <span>Make a Donation</span>
+        <button class="donate-popup-close" onclick="closeDonatePopup()">&#10005;</button>
+      </div>
+      <div class="donate-popup-body">
+        <iframe id="donate-iframe"
+                src=""
+                allow="payment"
+                scrolling="yes">
+        </iframe>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -782,11 +903,11 @@
   <div class="footer-logo">Making a Real Difference in Saigon</div>
   <p>
     &copy; 2025 &middot; Community Fundraising Campaign &middot; Ho Chi Minh City<br>
-    Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgba(255,255,255,0.55);text-decoration:none;">contact@asif.foundation</a>
+    Questions? Reach us at <a href="/cdn-cgi/l/email-protection#eb8884859f8a889fab8a98828dc58d849e858f8a9f828485" style="color:rgba(255,255,255,0.55);text-decoration:none;"><span class="__cf_email__" data-cfemail="50333f3e2431332410312339367e363f253e343124393f3e">[email&#160;protected]</span></a>
   </p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Auto-resize for Wix
   function sendHeightToWix() {
     var h = Math.max(document.body.scrollHeight, document.body.offsetHeight,
@@ -827,6 +948,40 @@
     btn.classList.add('active');
     document.getElementById('amount-input').value = value;
   }
+
+  // Donate Popup
+  function openDonatePopup() {
+    var popup = document.getElementById('donatePopup');
+    var iframe = document.getElementById('donate-iframe');
+    iframe.src = 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
+    popup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDonatePopup() {
+    var popup = document.getElementById('donatePopup');
+    var iframe = document.getElementById('donate-iframe');
+    popup.classList.remove('active');
+    iframe.src = '';
+    document.body.style.overflow = '';
+  }
+
+  function closeDonateOnOverlay(event) {
+    if (event.target === document.getElementById('donatePopup')) {
+      closeDonatePopup();
+    }
+  }
+
+  // Also trigger popup from CTA banner button
+  document.addEventListener('DOMContentLoaded', function() {
+    var ctaBtn = document.querySelector('.cta-btn');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openDonatePopup();
+      });
+    }
+  });
 
   // Clear preset on manual input
   document.getElementById('amount-input') && document.getElementById('amount-input').addEventListener('input', function() {
