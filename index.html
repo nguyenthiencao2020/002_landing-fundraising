@@ -554,6 +554,28 @@
     line-height: 1.5;
   }
 
+  /* IFRAME RESPONSIVE */
+  .donate-form iframe {
+    width: 100% !important;
+    min-height: 700px;
+    border: none;
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    .donate-section {
+      padding: 0 8px;
+    }
+    .donate-form {
+      padding: 16px 8px;
+    }
+    .donate-form iframe {
+      min-height: 900px;
+      transform-origin: top left;
+      width: 100% !important;
+    }
+  }
+
   /* FOOTER */
   .footer {
     background: var(--text-dark);
@@ -726,7 +748,9 @@
 
     <iframe src='https://asif.supporterhub.net.au/donations/make-an-impact-now'
             id='donations-make-an-impact-now-iframe'
-            style='border: none; width: 100%; min-height: 600px;' allow='payment'>
+            style='border: none; width: 100%; min-height: 700px; display: block;'
+            allow='payment'
+            scrolling='no'>
     </iframe>
 
     <p class="form-note" style="margin-top: 24px;">
@@ -762,7 +786,7 @@
   </p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Auto-resize for Wix
   function sendHeightToWix() {
     var h = Math.max(document.body.scrollHeight, document.body.offsetHeight,
