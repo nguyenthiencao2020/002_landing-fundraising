@@ -1,9 +1,0 @@
-include:
-  - .well-known
-```
-
-**Bước 3:** Commit và push lên GitHub
-
-**Bước 4:** Test tại:
-```
-https://nguyenthiencao2020.github.io/.well-known/apple-developer-merchantid-domain-association
