@@ -842,62 +842,36 @@
     You don&rsquo;t need to wait until you have more. Right now, whatever you can give,
     you become part of something extraordinary happening in this city.
   </p>
-  <a href="#donate" class="cta-btn" onclick="event.preventDefault();document.getElementById('donate').scrollIntoView({behavior:'smooth'})">
+  <a href="#donate" class="cta-btn" onclick="event.preventDefault();openDonatePopup()">
     Donate Now &rarr;
   </a>
 </div>
 
-<!-- DONATE FORM -->
-<section class="donate-section" id="donate">
-  <div class="section-label">Make a Donation</div>
-  <h2 class="reveal">Fill in your<br>donation details</h2>
 
-  <div class="donate-form reveal" style="padding: 0; border: none; background: transparent;">
-    <iframe src="https://asif.supporterhub.net.au/donations/make-an-impact-now"
-            id="donations-make-an-impact-now-iframe"
-            width="100%"
-            height="1400"
-            frameborder="0"
-            allow="payment"
-            allowpaymentrequest>
-    </iframe>
-  </div>
 
-  <!-- DONATE POPUP -->
-  <div class="donate-popup-overlay" id="donatePopup" onclick="closeDonateOnOverlay(event)">
-    <div class="donate-popup-box">
-      <div class="donate-popup-header">
-        <span>Make a Donation</span>
-        <button class="donate-popup-close" onclick="closeDonatePopup()">&#10005;</button>
-      </div>
-      <div class="donate-popup-body">
-        <iframe id="donate-iframe"
-                src=""
-                allow="payment"
-                scrolling="yes">
-        </iframe>
-      </div>
+<!-- DONATE POPUP -->
+<div class="donate-popup-overlay" id="donatePopup" onclick="closeDonateOnOverlay(event)">
+  <div class="donate-popup-box">
+    <div class="donate-popup-header">
+      <span>Make a Donation</span>
+      <button class="donate-popup-close" onclick="closeDonatePopup()">&#10005;</button>
+    </div>
+    <div class="donate-popup-body">
+      <iframe src=""
+              id="donate-iframe"
+              style="border: none; width: 100%;"
+              allow="payment">
+      </iframe>
     </div>
   </div>
-
-  <script>
-    // SupporterHub auto-height
-    window.addEventListener('message', function(event){
-      var iframe = document.getElementById('donations-make-an-impact-now-iframe');
-      if (!iframe) return;
-      if (event.data && event.data.url_path && event.data.url_path.startsWith('/donations/make-an-impact-now')) {
-        iframe.style.height = event.data.height + 'px';
-      }
-    }, false);
-  </script>
-</section>
+</div>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-logo">Making a Real Difference in Saigon</div>
   <p>
     &copy; 2026 &middot; Community Fundraising Campaign &middot; Ho Chi Minh City<br>
-Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgba(255,255,255,0.55);text-decoration:none;">contact@asif.foundation</a>
+    Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgba(255,255,255,0.55);text-decoration:none;">contact@asif.foundation</a>
   </p>
 </footer>
 
@@ -947,7 +921,23 @@ Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgb
   function openDonatePopup() {
     var popup = document.getElementById('donatePopup');
     var iframe = document.getElementById('donate-iframe');
-    iframe.src = 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
+    // Use SupporterHub official embed logic
+    var aabecbParams = new URLSearchParams(window.location.search);
+    var aabecbIframeParams = new URLSearchParams();
+    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','shcart'].forEach(function(p){
+      if (aabecbParams.get(p)) aabecbIframeParams.set(p, aabecbParams.get(p));
+    });
+    if (aabecbParams.get('source')) aabecbIframeParams.set('source', aabecbParams.get('source'));
+    else if (aabecbParams.get('utm_source')) aabecbIframeParams.set('source', aabecbParams.get('utm_source'));
+    iframe.src = aabecbIframeParams.toString()
+      ? 'https://asif.supporterhub.net.au/donations/make-an-impact-now?' + aabecbIframeParams.toString()
+      : 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
+    // Handle iframe auto-height from SupporterHub
+    window.addEventListener('message', function(event) {
+      if (!event.data || !event.data.url_path) return;
+      if (!event.data.url_path.startsWith('/donations/make-an-impact-now')) return;
+      iframe.style.height = event.data.height + 'px';
+    }, false);
     popup.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -965,17 +955,6 @@ Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgb
       closeDonatePopup();
     }
   }
-
-  // Also trigger popup from CTA banner button
-  document.addEventListener('DOMContentLoaded', function() {
-    var ctaBtn = document.querySelector('.cta-btn');
-    if (ctaBtn) {
-      ctaBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        openDonatePopup();
-      });
-    }
-  });
 
   // Clear preset on manual input
   document.getElementById('amount-input') && document.getElementById('amount-input').addEventListener('input', function() {
