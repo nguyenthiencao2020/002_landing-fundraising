@@ -1,0 +1,5 @@
+repo/
+  .well-known/
+    apple-developer-merchantid-domain-association
+  index.html
+  _config.yml
