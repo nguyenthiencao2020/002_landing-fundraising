@@ -857,10 +857,10 @@
       <button class="donate-popup-close" onclick="closeDonatePopup()">&#10005;</button>
     </div>
     <div class="donate-popup-body">
-      <iframe src=""
-              id="donate-iframe"
-              style="border: none; width: 100%;"
-              allow="payment">
+      <iframe src=''
+              id='donations-make-an-impact-now-iframe'
+              style='border: none; width: 100%;'
+              allow='payment'>
       </iframe>
     </div>
   </div>
@@ -871,7 +871,7 @@
   <div class="footer-logo">Making a Real Difference in Saigon</div>
   <p>
     &copy; 2026 &middot; Community Fundraising Campaign &middot; Ho Chi Minh City<br>
-    Questions? Reach us at <a href="mailto:contact@asif.foundation" style="color:rgba(255,255,255,0.55);text-decoration:none;">contact@asif.foundation</a>
+    Questions? Reach us at <a href="/cdn-cgi/l/email-protection#eb8884859f8a889fab8a98828dc58d849e858f8a9f828485" style="color:rgba(255,255,255,0.55);text-decoration:none;"><span class="__cf_email__" data-cfemail="50333f3e2431332410312339367e363f253e343124393f3e">[email&#160;protected]</span></a>
   </p>
 </footer>
 
@@ -920,31 +920,25 @@
   // Donate Popup
   function openDonatePopup() {
     var popup = document.getElementById('donatePopup');
-    var iframe = document.getElementById('donate-iframe');
-    // Use SupporterHub official embed logic
-    var aabecbParams = new URLSearchParams(window.location.search);
-    var aabecbIframeParams = new URLSearchParams();
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','shcart'].forEach(function(p){
-      if (aabecbParams.get(p)) aabecbIframeParams.set(p, aabecbParams.get(p));
-    });
-    if (aabecbParams.get('source')) aabecbIframeParams.set('source', aabecbParams.get('source'));
-    else if (aabecbParams.get('utm_source')) aabecbIframeParams.set('source', aabecbParams.get('utm_source'));
-    iframe.src = aabecbIframeParams.toString()
-      ? 'https://asif.supporterhub.net.au/donations/make-an-impact-now?' + aabecbIframeParams.toString()
-      : 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
-    // Handle iframe auto-height from SupporterHub
-    window.addEventListener('message', function(event) {
-      if (!event.data || !event.data.url_path) return;
-      if (!event.data.url_path.startsWith('/donations/make-an-impact-now')) return;
-      iframe.style.height = event.data.height + 'px';
-    }, false);
     popup.classList.add('active');
     document.body.style.overflow = 'hidden';
+    // Official SupporterHub embed script
+    const aabecbIframe = document.getElementById('donations-make-an-impact-now-iframe');
+    const aabecbParams = new URLSearchParams(window.location.search);
+    const aabecbIframeParams = new URLSearchParams();
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'shcart'].forEach(p => aabecbParams.get(p) && aabecbIframeParams.set(p, aabecbParams.get(p)));
+    if (aabecbParams.get('source')) aabecbIframeParams.set('source', aabecbParams.get('source'));
+    else if (aabecbParams.get('utm_source')) aabecbIframeParams.set('source', aabecbParams.get('utm_source'));
+    aabecbIframe.src = aabecbIframeParams.toString() ? 'https://asif.supporterhub.net.au/donations/make-an-impact-now?' + aabecbIframeParams : 'https://asif.supporterhub.net.au/donations/make-an-impact-now';
+    window.addEventListener('message', (event) => {
+      if (!event.data.url_path?.startsWith('/donations/make-an-impact-now')) return;
+      aabecbIframe.style.height = event.data.height + 'px';
+    }, false);
   }
 
   function closeDonatePopup() {
     var popup = document.getElementById('donatePopup');
-    var iframe = document.getElementById('donate-iframe');
+    var iframe = document.getElementById('donations-make-an-impact-now-iframe');
     popup.classList.remove('active');
     iframe.src = '';
     document.body.style.overflow = '';
