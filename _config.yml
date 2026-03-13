@@ -1,0 +1,24 @@
+include:
+  - .well-known
+```
+4. Click **Commit changes**
+
+---
+
+**Bước 2: Upload file Apple Pay**
+
+1. Click **Add file → Upload files**
+2. Kéo thả file `apple-developer-merchantid-domain-association` vào
+3. **Quan trọng:** Trước khi commit, click vào tên file vừa upload, **sửa tên thành:**
+```
+.well-known/apple-developer-merchantid-domain-association
+```
+4. Click **Commit changes**
+
+---
+
+**Bước 3: Test**
+
+Truy cập:
+```
+https://nguyenthiencao2020.github.io/.well-known/apple-developer-merchantid-domain-association
